@@ -1,0 +1,3 @@
+Using proactor: IocpProactor
+2021-09-14 14:49:40,713 WARNING myapp.views: Line 26 may causes error
+2021-09-14 14:49:40,714 ERROR myapp.views: Divide by Zero
