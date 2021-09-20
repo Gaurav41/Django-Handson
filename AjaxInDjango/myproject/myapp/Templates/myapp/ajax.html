@@ -1,0 +1,89 @@
+<script>
+    // Insert Data
+    let token = $('input[name="csrfmiddlewaretoken"]').attr('value'); 
+    $('#btnsave').click(function(){
+        output=""
+        //console.log("hiiiiiiiiiii")
+        let id = $("#user_id").val()
+        let name = $("#nameid").val()
+        let email = $("#emailid").val()
+        let password = $("#passwordid").val()
+        event.preventDefault()
+        mydata={id:id,name:name,email:email,password:password,csrfmiddlewaretoken:token}
+        
+        $.ajax({
+            method: "POST",
+            url:"{% url 'save' %}",
+            data:mydata,
+            //headers: {
+            //    'X-CSRFToken': token 
+            //},
+            success:function(data){
+              //  console.log(data)
+              x = data.user_data
+              if(data.status==1){
+                  $("#msg").text("Data saved")
+                  $("#msg").show();
+                  console.log(data.user_data)
+                  for(i=0; i<x.length; i++){
+                      output += "<tr><td>"+x[i].id+"</td><td>"+x[i].name+"</td><td>"+x[i].email+"</td><td>"+x[i].password+"</td><td><input type='button' data-sid="+x[i].id+" class='btn btn-warning btn-sm btn-edit' value='Edit'> <input type='button' data-sid="+x[i].id+" class='btn btn-danger btn-sm btn-delete' value='Delete'></td></tr>"
+                  }
+                  console.log("output")
+                  console.log(output)
+                  $("#tbody").html(output)
+                  $("form")[0].reset();
+              }else if(data.status==0){
+                $("#msg").text("Data Not saved")
+                $("#msg").show();
+              } 
+            },
+        });
+    });
+
+    //Delete
+    $("tbody").on("click",".btn-delete", function(){
+        let id = $(this).attr("data-sid") ;
+        //console.log(id) 
+        mythis = this
+        $.ajax({
+            method:"POST",
+            url:"{% url 'delete' %}",
+            data:{sid:id,csrfmiddlewaretoken:token},
+            success:function(data){
+                console.log(data)
+
+                if(data.status==1){
+                    $(mythis).closest("tr").fadeOut();
+                    $("#msg").text("Data deleted")
+                }else{
+                    $("#msg").text("Unable to Data deleted")
+                }
+                
+                $("#msg").show();
+            },
+
+        });
+    });
+
+    //Edit
+    $("tbody").on("click",".btn-edit", function(){
+        let id = $(this).attr("data-sid") ;
+        console.log(id) 
+        $.ajax({
+            method:"POST",
+            url:"{% url 'edit' %}",
+            data:{sid:id,csrfmiddlewaretoken:token},
+            dataType:"json",
+            success:function(data){
+                console.log(data)
+                $("#user_id").val(data.id)
+                $("#nameid").val(data.name)
+                $("#emailid").val(data.email)
+                $("#passwordid").val(data.password)
+            },
+
+        });
+    });
+
+
+</script>
