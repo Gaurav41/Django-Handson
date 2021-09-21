@@ -7,6 +7,24 @@
     <title>Home</title>
 </head>
 <body>
+    {% if posts %}
+    {% for post in posts %}
+    <h2>{{post.title}}</h2>
+    <small>{{post.publish_date}}</small>
+    <p>{{post.desc|truncatewords:100}}... <a href="{% url 'post' post.id %}">Read More</a> </p>
+    {% endfor %}
+
+    <div>
+            {% if posts.has_previous %}
+            <a href="?page={{posts.previous_page_number}}">Previous</a>
+            {% endif %}
+            <span>Page {{posts.number}} of {{posts.paginator.num_pages}} </span>
+            {% if posts.has_next %}
+            <a href="?page={{posts.next_page_number}}">Next</a>
+            {% endif %}
+       
+    </div>
+    {% endif %}
     {% if is_paginated %}
     {% for post in page_obj %}
     <h2>{{post.title}}</h2>

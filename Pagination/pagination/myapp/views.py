@@ -11,7 +11,7 @@ def post_list(request):
     paginator = Paginator(object_list=posts,per_page=3,orphans=1)
     page_num = request.GET.get("page")
     page = paginator.get_page(page_num)
-    return render(request,"myapp/posts.html",{"page_obj":page})
+    return render(request,"myapp/posts.html",{"posts":page})
 
 
 ## Pagination by class based views

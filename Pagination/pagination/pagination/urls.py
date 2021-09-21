@@ -18,7 +18,8 @@ from django.urls import path
 from myapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("posts/",views.post_list,name="posts"),
+    path("",views.post_list,name="posts"),
+    # path("posts/",views.post_list,name="posts"),
     path("postsview/",views.PostListView.as_view(),name="postsview"),
     path("post/<int:pk>",views.PostDetailView.as_view(),name="post"),
 ]
