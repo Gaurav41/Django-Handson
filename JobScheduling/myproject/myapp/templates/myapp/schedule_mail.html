@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{% url 'schedulemail' %}" method="post">
+        {% csrf_token %}
+        <label for="hr">Hour :</label>
+        <input type="text" id="hr" name="hr" >
+
+        <label for="min">Min :</label>
+        <input type="text" id="min" name="min" >
+
+        <label for="day_of_month">day_of_month :</label>
+        <input type="text" id="day_of_month" name="day" >
+
+        <label for="day_of_month">month_of_year :</label>
+        <input type="text" id="month_of_year" name="month" >
+        
+        <input type="submit" value="submit">
+    </form>
+    
+</body>
+</html>
